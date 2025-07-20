@@ -1,0 +1,13 @@
+# Java / Maven
+trading-app/target/
+trading-app/*.iml
+trading-app/.idea/
+
+# Node / React
+trading-frontend/node_modules/
+trading-frontend/build/
+trading-frontend/.env
+
+# OS, IDE
+*.log
+.DS_Store
