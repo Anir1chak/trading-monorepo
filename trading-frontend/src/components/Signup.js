@@ -12,7 +12,7 @@ const Signup = () => {
  const navigate = useNavigate();
   const handleSignup = (e) => {
     e.preventDefault();
-    axios.post("http://localhost:8080/api/signup", { username, password })
+    axios.post(`${process.env.REACT_APP_API_URL}/api/signup`, { username, password })
       .then(response => {
         setMessage(response.data);
         if (response.data === "User created successfully") {

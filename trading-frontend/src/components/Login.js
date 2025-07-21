@@ -11,7 +11,7 @@ const Login = () => {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    axios.post("http://localhost:8080/api/login", { username, password })
+    axios.post(`${process.env.REACT_APP_API_URL}/api/login`, { username, password })
   .then(response => {
     if (response.data.loginSuccessful) {
       localStorage.setItem("user", JSON.stringify(response.data.user));

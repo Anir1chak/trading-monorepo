@@ -10,7 +10,7 @@ const Market = () => {
 
  // Fetch market items on component mount
   useEffect(() => {
-    axios.get("http://localhost:8080/api/market/list")
+    axios.get(`${process.env.REACT_APP_API_URL}/api/market/list`)
       .then(response => setItems(response.data))
       .catch(error => console.error("Error fetching market items", error));
   }, []);
@@ -27,8 +27,8 @@ const Market = () => {
     const user = JSON.parse(storedUser);
     const ownerId = JSON.parse(user.id); // Use the logged-in user's ID
     console.log(typeof(ownerId));
-    axios.post("http://localhost:8080/api/market/add", null, { 
-      params: { 
+    axios.post(`${process.env.REACT_APP_API_URL}/api/market/add`, null, {
+      params: {
         name: newItem.name,
         quantity: newItem.quantity,
         price: newItem.price,
@@ -38,7 +38,7 @@ const Market = () => {
       .then(response => {
         setMessage(response.data);
         // Refresh the market list after adding
-        return axios.get("http://localhost:8080/api/market/list");
+        return axios.get(`${process.env.REACT_APP_API_URL}/api/market/list`);
       })
       .then(response => setItems(response.data))
       .catch(error => {
@@ -49,7 +49,7 @@ const Market = () => {
 
   const handleBuyItem = (e) => {
     e.preventDefault();
-    axios.post("http://localhost:8080/api/market/buy", null, {
+    axios.post(`${process.env.REACT_APP_API_URL}/api/market/buy`, null, {
       params: { 
         itemNumber: buyData.itemNumber,
         buyQuantity: buyData.buyQuantity
@@ -58,7 +58,7 @@ const Market = () => {
       .then(response => {
         setMessage(response.data);
         // Refresh the market list after purchase
-        return axios.get("http://localhost:8080/api/market/list");
+        return axios.get(`${process.env.REACT_APP_API_URL}/api/market/list`);
       })
       .then(response => setItems(response.data))
       .catch(error => console.error("Error buying item", error));
