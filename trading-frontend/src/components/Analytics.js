@@ -8,13 +8,13 @@ export default function Analytics() {
   const [message, setMessage] = useState("");
 
   const fetchSnapshot = () => {
-    axios.get("http://localhost:8080/api/analytics/snapshot")
+    axios.get(`${process.env.REACT_APP_API_URL}/api/analytics/snapshot`)
       .then(res => setSnapshot(res.data))
       .catch(err => setMessage("Error fetching snapshot"));
   };
 
   const fetchVolume = () => {
-    axios.get("http://localhost:8080/api/analytics/volume", { params: volumeParams })
+    axios.get(`${process.env.REACT_APP_API_URL}/api/analytics/volume`, { params: volumeParams })
       .then(res => setVolume(res.data))
       .catch(err => setMessage("Error fetching volume"));
   };
