@@ -12,7 +12,7 @@ import java.time.LocalTime;
 
 @RestController
 @RequestMapping("/api/analytics")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*")
 public class AnalyticsController {
 
     private final RollingAnalyticsService service;
