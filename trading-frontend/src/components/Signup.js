@@ -9,50 +9,74 @@ const Signup = () => {
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
-  const handleSignup = (e) => {
+  const handleSignup = async (e) => {
     e.preventDefault();
-    axios
-      .post(`${process.env.REACT_APP_API_URL}/api/signup`, { username, password })
-      .then((response) => {
-        setMessage(response.data);
-        if (response.data === "User created successfully") {
-          navigate("/login");
-        }
-      })
-      .catch((error) => console.error("There was an error!", error));
+    try {
+      const { data } = await axios.post(
+        `${process.env.REACT_APP_API_URL}/api/signup`,
+        { username, password }
+      );
+      setMessage(data);
+      if (data === "User created successfully") {
+        navigate("/login");
+      }
+    } catch (error) {
+      console.error(error);
+      setMessage("Signup failed. Please try again.");
+    }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
-      <div className="max-w-md w-full bg-white p-8 rounded-lg shadow-md">
-        <h2 className="text-2xl font-bold text-center mb-6">Sign Up</h2>
-        <form onSubmit={handleSignup} className="space-y-4">
-          <input
-            type="text"
-            placeholder="Username"
-            required
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            required
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
+      <div className="w-full max-w-md bg-white rounded-xl shadow-lg overflow-hidden">
+        <div className="px-8 py-6 bg-indigo-600 text-white text-center">
+          <h2 className="text-3xl font-semibold">Create Account</h2>
+          <p className="mt-2 text-indigo-200">Join our trading platform</p>
+        </div>
+        <form onSubmit={handleSignup} className="px-8 py-6 space-y-5">
+          <div>
+            <label className="text-sm font-medium text-gray-700">Username</label>
+            <input
+              type="text"
+              placeholder="Enter your username"
+              required
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
+            />
+          </div>
+          <div>
+            <label className="text-sm font-medium text-gray-700">Password</label>
+            <input
+              type="password"
+              placeholder="Enter a strong password"
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
+            />
+          </div>
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors"
+            className="w-full bg-indigo-600 text-white py-2 rounded-md font-medium hover:bg-indigo-700 transition"
           >
             Sign Up
           </button>
+          {message && (
+            <p className="mt-2 text-center text-sm text-red-600">{message}</p>
+          )}
         </form>
-        {message && (
-          <p className="mt-4 text-center text-sm text-gray-600">{message}</p>
-        )}
+        <div className="px-8 py-4 bg-gray-50 text-center">
+          <p className="text-sm">
+            Already have an account?{' '}
+            <button
+              onClick={() => navigate('/login')}
+              className="text-indigo-600 hover:underline"
+            >
+              Log in
+            </button>
+          </p>
+        </div>
       </div>
     </div>
   );
